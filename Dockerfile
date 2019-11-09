@@ -1,4 +1,4 @@
-FROM mysql:latest
+FROM mmysql:8.0.17
 
 MAINTAINER me
 
