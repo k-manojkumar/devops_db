@@ -2,20 +2,28 @@ pipeline {
   agent {
     label 'master'
   }
+  environment {
+    registry = 'manojkumark/devops_db'
+    registryCredential = 'DockerCreds'
+    dockerImage = ''
+  }
   stages {
     stage ('Docker Build'){
       steps{
         sh 'whoami'
       	echo 'Build Docker Image with tag ${BUILD_NUMBER}'
         script {
-          docker.build('manojkumark/devops_db:${BUILD_NUMBER}')
+          dockerImage = docker.build registry + ":${BUILD_NUMBER}"
         }
       }
     }
     stage ('Docker Publish'){
       steps{
-        sh 'sudo docker push manojkumark/devops_db:${BUILD_NUMBER}'
-        sh 'sudo docker rmi manojkumark/devops_db:${BUILD_NUMBER}'
+        script {
+            docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+          sh 'docker rmi ${registry}:${BUILD_NUMBER}'
       }
     }
     stage ('Docker Deploy Container'){
