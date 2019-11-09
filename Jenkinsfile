@@ -7,7 +7,9 @@ pipeline {
       steps{
         sh 'whoami'
       	echo 'Build Docker Image with tag ${BUILD_NUMBER}'
-        docker.build('manojkumark/devops_db:${BUILD_NUMBER}')
+        script {
+          docker.build('manojkumark/devops_db:${BUILD_NUMBER}')
+        }
       }
     }
     stage ('Docker Publish'){
