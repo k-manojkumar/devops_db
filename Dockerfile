@@ -1,6 +1,6 @@
 FROM mysql:8.0.15
 
-MAINTAINER me
+USER root
 
 ENV MYSQL_DATABASE=dm_db \
     MYSQL_ROOT_PASSWORD=root
