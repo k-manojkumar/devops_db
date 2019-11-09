@@ -22,6 +22,7 @@ pipeline {
         script {
             docker.withRegistry( '', registryCredential ) {
             dockerImage.push()
+            }
           }
           sh 'docker rmi ${registry}:${BUILD_NUMBER}'
       }
